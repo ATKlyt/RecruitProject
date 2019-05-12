@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="recruit-manager:war">
+    <output-path>$PROJECT_DIR$/common-parent/recruit-manager/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>recruit-manager</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="recruit-manager.war">
+      <element id="artifact" artifact-name="recruit-manager:war exploded" />
+    </root>
+  </artifact>
+</component>

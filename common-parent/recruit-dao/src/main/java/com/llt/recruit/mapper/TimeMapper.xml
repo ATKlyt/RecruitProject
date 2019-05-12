@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llt.recruit.mapper.mapper.TimeMapper">
+
+  <select id="getTypeTime" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from time where type = #{type}
+  </select>
+
+  <update id="updateAmount" parameterType="java.lang.Long">
+    update time set amount = amount + 1 where id = #{id}
+  </update>
+
+  <update id="toChooseTime" parameterType="com.llt.recruit.model.EntryForm">
+    update entryForm set date_Id = #{dateId} where id = #{id}
+  </update>
+
+  <select id="findExamTimeOrQueryAmount" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select * from time where id = #{dateId}
+  </select>
+
+
+
+
+
+
+  <resultMap id="BaseResultMap" type="com.llt.recruit.model.Time">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="begin_Time" jdbcType="TIMESTAMP" property="beginTime" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="amount_Limit" jdbcType="INTEGER" property="amountLimit" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="end_Time" jdbcType="TIMESTAMP" property="endTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, begin_Time, type, amount_Limit, amount, end_Time
+  </sql>
+  <select id="selectByExample" parameterType="com.llt.recruit.model.TimeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from time
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from time
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.llt.recruit.model.TimeExample">
+    delete from time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.llt.recruit.model.Time">
+    insert into time (id, begin_Time, type, 
+      amount_Limit, amount, end_Time
+      )
+    values (#{id,jdbcType=BIGINT}, #{beginTime,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, 
+      #{amountLimit,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER}, #{endTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.llt.recruit.model.Time">
+    insert into time
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="beginTime != null">
+        begin_Time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="amountLimit != null">
+        amount_Limit,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="endTime != null">
+        end_Time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="amountLimit != null">
+        #{amountLimit,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.llt.recruit.model.TimeExample" resultType="java.lang.Long">
+    select count(*) from time
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update time
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.beginTime != null">
+        begin_Time = #{record.beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amountLimit != null">
+        amount_Limit = #{record.amountLimit,jdbcType=INTEGER},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.endTime != null">
+        end_Time = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update time
+    set id = #{record.id,jdbcType=BIGINT},
+      begin_Time = #{record.beginTime,jdbcType=TIMESTAMP},
+      type = #{record.type,jdbcType=VARCHAR},
+      amount_Limit = #{record.amountLimit,jdbcType=INTEGER},
+      amount = #{record.amount,jdbcType=INTEGER},
+      end_Time = #{record.endTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llt.recruit.model.Time">
+    update time
+    <set>
+      <if test="beginTime != null">
+        begin_Time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="amountLimit != null">
+        amount_Limit = #{amountLimit,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="endTime != null">
+        end_Time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llt.recruit.model.Time">
+    update time
+    set begin_Time = #{beginTime,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      amount_Limit = #{amountLimit,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=INTEGER},
+      end_Time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

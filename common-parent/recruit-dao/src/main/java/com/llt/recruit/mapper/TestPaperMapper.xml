@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llt.recruit.mapper.mapper.TestPaperMapper">
+
+  <select id="findAll" parameterType="Map" resultMap="BaseResultMap">
+    select * from testPaper
+    <where>
+      <if test="params.paperName != null">
+        and  paper_Name like '%${params.paperName[0]}%'
+      </if>
+    </where>
+  </select>
+
+<select id="findByPaperName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  select * from testPaper where paper_Name = #{paperName}
+</select>
+  <select id="findRand" resultMap="BaseResultMap">
+    SELECT * FROM testPaper ORDER BY  RAND() LIMIT 1
+  </select>
+
+
+
+
+
+  <resultMap id="BaseResultMap" type="com.llt.recruit.model.TestPaper">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="paper_Score" jdbcType="INTEGER" property="paperScore" />
+    <result column="paper_Name" jdbcType="VARCHAR" property="paperName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, paper_Score, paper_Name
+  </sql>
+  <select id="selectByExample" parameterType="com.llt.recruit.model.TestPaperExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from testpaper
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from testpaper
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from testpaper
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.llt.recruit.model.TestPaperExample">
+    delete from testpaper
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.llt.recruit.model.TestPaper">
+    insert into testpaper (id, paper_Score, paper_Name
+      )
+    values (#{id,jdbcType=BIGINT}, #{paperScore,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.llt.recruit.model.TestPaper">
+    insert into testpaper
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="paperScore != null">
+        paper_Score,
+      </if>
+      <if test="paperName != null">
+        paper_Name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="paperScore != null">
+        #{paperScore,jdbcType=INTEGER},
+      </if>
+      <if test="paperName != null">
+        #{paperName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.llt.recruit.model.TestPaperExample" resultType="java.lang.Long">
+    select count(*) from testpaper
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update testpaper
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.paperScore != null">
+        paper_Score = #{record.paperScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.paperName != null">
+        paper_Name = #{record.paperName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update testpaper
+    set id = #{record.id,jdbcType=BIGINT},
+      paper_Score = #{record.paperScore,jdbcType=INTEGER},
+      paper_Name = #{record.paperName,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llt.recruit.model.TestPaper">
+    update testpaper
+    <set>
+      <if test="paperScore != null">
+        paper_Score = #{paperScore,jdbcType=INTEGER},
+      </if>
+      <if test="paperName != null">
+        paper_Name = #{paperName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llt.recruit.model.TestPaper">
+    update testpaper
+    set paper_Score = #{paperScore,jdbcType=INTEGER},
+      paper_Name = #{paperName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

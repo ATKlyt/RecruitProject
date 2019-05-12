@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="recruit-dao" />
+        <module name="recruit-manager" />
+        <module name="recruit-model" />
+        <module name="recruit-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="common-parent" target="1.5" />
+      <module name="recruit-dao" target="1.7" />
+      <module name="recruit-manager" target="1.7" />
+      <module name="recruit-model" target="1.7" />
+      <module name="recruit-service" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-encoding utf-8" />
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-parent" options="" />
+      <module name="recruit-dao" options="" />
+      <module name="recruit-manager" options="" />
+      <module name="recruit-model" options="" />
+      <module name="recruit-service" options="" />
+    </option>
+  </component>
+</project>

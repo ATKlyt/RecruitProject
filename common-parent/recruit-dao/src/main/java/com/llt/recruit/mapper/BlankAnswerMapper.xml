@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.llt.recruit.mapper.mapper.BlankAnswerMapper">
+
+  <select id="findByUserId" parameterType="java.lang.Long" resultType="com.llt.recruit.model.BlankAnswer">
+    select * from blankAnswer where user_Id = #{userId} AND status = '0'
+  </select>
+
+  <update id="updateBlankStatus" >
+    update blankAnswer set status = '1' where question_Id = #{questionId} and user_Id = #{userId}
+  </update>
+
+  <select id="findBlankAnswerList" resultMap="BaseResultMap">
+    select b.* , q.question_Name from blankAnswer b, question q
+    WHERE b.question_Id = q.id and b.status = '0'
+  </select>
+
+
+  <select id="findBlankAnswer" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select b.* , q.question_Name from blankAnswer b, question q
+    WHERE b.question_Id = q.id and b.id = #{id}
+  </select>
+
+  <resultMap id="BaseResultMap" type="com.llt.recruit.model.BlankAnswer">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_Id" jdbcType="BIGINT" property="userId" />
+    <result column="question_Id" jdbcType="BIGINT" property="questionId" />
+    <result column="blank_Answer" jdbcType="VARCHAR" property="blankAnswer" />
+    <result column="blank_Score" jdbcType="INTEGER" property="blankScore" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="question_Name" jdbcType="VARCHAR" property="questionName" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, user_Id, question_Id, blank_Answer, blank_Score, status
+  </sql>
+  <select id="selectByExample" parameterType="com.llt.recruit.model.BlankAnswerExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blankanswer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blankanswer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from blankanswer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.llt.recruit.model.BlankAnswerExample">
+    delete from blankanswer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.llt.recruit.model.BlankAnswer">
+    insert into blankanswer (id, user_Id, question_Id, 
+      blank_Answer, blank_Score, status
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{questionId,jdbcType=BIGINT}, 
+      #{blankAnswer,jdbcType=VARCHAR}, #{blankScore,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.llt.recruit.model.BlankAnswer">
+    insert into blankanswer
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_Id,
+      </if>
+      <if test="questionId != null">
+        question_Id,
+      </if>
+      <if test="blankAnswer != null">
+        blank_Answer,
+      </if>
+      <if test="blankScore != null">
+        blank_Score,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="questionId != null">
+        #{questionId,jdbcType=BIGINT},
+      </if>
+      <if test="blankAnswer != null">
+        #{blankAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="blankScore != null">
+        #{blankScore,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.llt.recruit.model.BlankAnswerExample" resultType="java.lang.Long">
+    select count(*) from blankanswer
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update blankanswer
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null">
+        user_Id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.questionId != null">
+        question_Id = #{record.questionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.blankAnswer != null">
+        blank_Answer = #{record.blankAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blankScore != null">
+        blank_Score = #{record.blankScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update blankanswer
+    set id = #{record.id,jdbcType=BIGINT},
+      user_Id = #{record.userId,jdbcType=BIGINT},
+      question_Id = #{record.questionId,jdbcType=BIGINT},
+      blank_Answer = #{record.blankAnswer,jdbcType=VARCHAR},
+      blank_Score = #{record.blankScore,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.llt.recruit.model.BlankAnswer">
+    update blankanswer
+    <set>
+      <if test="userId != null">
+        user_Id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="questionId != null">
+        question_Id = #{questionId,jdbcType=BIGINT},
+      </if>
+      <if test="blankAnswer != null">
+        blank_Answer = #{blankAnswer,jdbcType=VARCHAR},
+      </if>
+      <if test="blankScore != null">
+        blank_Score = #{blankScore,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.llt.recruit.model.BlankAnswer">
+    update blankanswer
+    set user_Id = #{userId,jdbcType=BIGINT},
+      question_Id = #{questionId,jdbcType=BIGINT},
+      blank_Answer = #{blankAnswer,jdbcType=VARCHAR},
+      blank_Score = #{blankScore,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
